@@ -25,6 +25,9 @@ let appID = driver('getAppID');
 let configPath = 'xxxx/xxxx/'+appID+'.json'; // todo
 
 module.exports = {
+    test:function(){
+        return 'hello world'
+    },
     config:function(){ // todo 同步还是异步
         var set = function(){
             var config = get();
