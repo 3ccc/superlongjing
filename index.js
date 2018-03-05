@@ -22,9 +22,8 @@ let ljClient = {
 };
 
 let appID = driver('getAppID');
-let configPath = 'xxxx/xxxx/'+appID+'.json'; // todo
 
-module.exports = {
+let jssdk = {
     test:function(){
         return 'hello world'
     },
@@ -39,10 +38,10 @@ module.exports = {
             }else{
                 config[arg0] = arguments[1];
             }
-            driver('writeFile', {path: configPath, content: JSON.stringify(config)});
+            driver('writeConfig', {content: JSON.stringify(config)});
         };
         var get = function(attrName){
-            var config = driver('readFile', {path: configPath}) || {};
+            var config = driver('readConfig') || {};
             var jsonConfig = {};
             try {
                 jsonConfig = JSON.parse(config).content;
@@ -83,17 +82,17 @@ module.exports = {
             default:break;
         }
     },
-    open: function (path) {
-
+    open: function (options) {
+        driver('open', {url: options.path});
     },
     quit: function () {
-
+        driver('quit');
     },
     refresh:function(path){
         driver('refresh',{path:path});
     },
-    upgrade: function (url) {
-        driver('upgrade', {url: url});
+    upgrade: function (options) {
+        driver('upgrade', {url: options.url});
         this.ts('upgradeResult',function(){
             driver('restart');
         });
@@ -107,3 +106,14 @@ module.exports = {
         fn();
     }
 };
+
+// 内置方法
+(function(){
+    function timer(){
+        if(jssdk.config('')){
+
+        }
+    }
+})();
+
+module.exports = jssdk;
