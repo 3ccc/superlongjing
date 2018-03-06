@@ -1,5 +1,5 @@
-let driver = require("./lib/driver");
-let ljClient = {
+var driver = require("./lib/driver");
+var ljClient = {
     getDeviceNumber: function () { // 获取设备号
         return this.get().clientNumber || null;
     },
@@ -21,9 +21,9 @@ let ljClient = {
     }
 };
 
-let appID = driver('getAppID');
+var appID = driver('getAppID');
 
-let jssdk = {
+var jssdk = {
     test:function(){
         return 'hello world'
     },
@@ -38,16 +38,14 @@ let jssdk = {
             }else{
                 config[arg0] = arguments[1];
             }
+            console.log('写配置的数据=>'+JSON.stringify({content: JSON.stringify(config)}));
             driver('writeConfig', {content: JSON.stringify(config)});
         };
         var get = function(attrName){
             var config = driver('readConfig') || {};
-            var jsonConfig = {};
-            try {
-                jsonConfig = JSON.parse(config).content;
-            } catch (e) {
-                jsonConfig = config.content || {}
-            }
+            console.log('读配置的数据=》'+config.content);
+            var jsonConfig = typeof config.content == 'string' ? JSON.parse(config.content):config.content;
+            console.log('读配置处理的数据=>'+JSON.stringify(jsonConfig));
             if (attrName) {
                 switch(attrName){
                     case 'deviceNumber': //  终端号  设备号
@@ -96,6 +94,12 @@ let jssdk = {
         this.ts('upgradeResult',function(){
             driver('restart');
         });
+    },
+    setQuitTime:function(options){
+        driver('setQuitTime',{time:options.time||options});
+    },
+    notifyMainPage:function(){
+        driver('notifyMainPage');
     },
     ts:function(name,fn,options){
         ljTsEventAction[name] = function (res) {
