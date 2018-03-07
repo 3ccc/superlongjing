@@ -38,14 +38,24 @@ var jssdk = {
             }else{
                 config[arg0] = arguments[1];
             }
-            console.log('写配置的数据=>'+JSON.stringify({content: JSON.stringify(config)}));
             driver('writeConfig', {content: JSON.stringify(config)});
         };
         var get = function(attrName){
             var config = driver('readConfig') || {};
-            console.log('读配置的数据=》'+config.content);
-            var jsonConfig = typeof config.content == 'string' ? JSON.parse(config.content):config.content;
-            console.log('读配置处理的数据=>'+JSON.stringify(jsonConfig));
+            var jsonConfig = {};
+            try{
+                if(typeof config.content == 'string'){
+                    jsonConfig = (function(result){
+                        if(typeof result == 'object') return result;
+                        return arguments.callee(JSON.parse(result));
+                    })((JSON.parse(config.content) || {}));
+                }else{
+                    jsonConfig = config.content || {};
+                }
+            }catch(e){
+                jsonConfig = config.content || {};
+                console.log('读取配置时，数据处理异常');
+            }
             if (attrName) {
                 switch(attrName){
                     case 'deviceNumber': //  终端号  设备号
