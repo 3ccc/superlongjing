@@ -90,10 +90,12 @@ var jssdk = {
             default:break;
         }
     },
-    open: function (options) {
-        driver('open', {url: options.path});
+    openChildWindow: function (options) {
+        driver('open', {
+            type:options.type||'offline',
+            url: options.path});
     },
-    quit: function () {
+    closeChildWindow: function () {
         driver('quit');
     },
     refresh:function(path){
@@ -105,13 +107,20 @@ var jssdk = {
             driver('restart');
         });
     },
-    setQuitTime:function(options){
+    setChildWindowAutoCloseSecond:function(options){
         driver('setQuitTime',{time:options.time||options});
     },
-    notifyMainPage:function(){
+    refreshMainWindow:function(){
         driver('notifyMainPage');
     },
-    ts:function(name,fn,options){
+    notify:function(name,fn,options){
+        switch(name){
+            case 'ENTER_SCREENSAVERS':
+                name = 'inScreensaver';
+                break;
+            default:
+                break;
+        }
         ljTsEventAction[name] = function (res) {
             if(fn)fn(res,options);
         };
