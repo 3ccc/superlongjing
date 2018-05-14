@@ -26,7 +26,6 @@
             display: block;
             width:120px;
             height:100%;
-            line-height: 80px;
             text-align: center;
             background: #F2F2F2;
             color:#000;
@@ -41,9 +40,12 @@
     <li id="open"><span>测试新开页面</span></li>
     <li id="update"><span>测试应用更新</span></li>
 </ul>
+    <div >v1:<span id="closeChildWindow" style="display: inline-block;width:100%;"></span></div>
 </div>
+
 <script>
     var version = '1.0.2';
+    var _url = window.location.href;
     $(function(){
         $('#open').on('click',function(){
             longjing.openChildWindow({
@@ -60,6 +62,10 @@
         });
 
         $('#version').html(version+'  '+longjing.config('test'));
+
+        if(_url.indexOf('_xx_xx')>-1){
+            $('#closeChildWindow').html(_url);
+        }
     });
 
     longjing.notify('ENTER_SCREENSAVERS',function(res){
