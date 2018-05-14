@@ -5,19 +5,66 @@
     <title>测试</title>
     <link rel="stylesheet" href=""/>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="./lib/testENV.js"></script>
+    <!--<script src="./lib/testENV.js"></script>-->
     <script src="./dist/jlongjing.min.js"></script>
+    <style>
+        *{margin:0;padding:0;}
+        body{
+            background:#f2f2f2;
+        }
+        ul,li{list-style: none;}
+        ul{
+            overflow:hidden;
+        }
+        li{
+            float: left;
+            height:80px;
+            padding:10px 10px;
+            cursor: pointer;
+        }
+        span{
+            display: block;
+            width:120px;
+            height:100%;
+            line-height: 80px;
+            text-align: center;
+            background: #F2F2F2;
+            color:#000;
+        }
+    </style>
 </head>
 <body>
+<div style="margin-top:100px;margin-left:20px;margin-right:20px;border:1px solid #ccc;padding:10px 10px;">
+<h2>配置测试：<span id="version"></span></h2>
+<div>测试屏保通知：<span id="tongzhi"></span></div>
+<ul>
+    <li id="open"><span>测试新开页面</span></li>
+    <li id="update"><span>测试应用更新</span></li>
+</ul>
+</div>
 <script>
-//    longjing.openChildWindow({
-//        type:'online',
-//        path:'http://www.baidu.com'
-//    });
-//    console.log(ljTsEventAction);
-    console.log(longjing.test());
-    console.log(111111,longjing.config('appid'));
-//    longjing.test();
+    var version = '1.0.2';
+    $(function(){
+        $('#open').on('click',function(){
+            longjing.openChildWindow({
+                type:'online',
+                path:'http://lj.swao.cn/app/child.html'
+            })
+        });
+        $('#update').on('click',function(){
+            if(version != '1.0.2'){
+                longjing.upgrade({
+                    url:'http://lja.swao.cn/upload/update2018030601.zip'
+                });
+            }
+        });
+
+        $('#version').html(version+'  '+longjing.config('test'));
+    });
+
+    longjing.notify('ENTER_SCREENSAVERS',function(res){
+        $('#tongzhi').html('屏保通知到了')
+    });
 </script>
 </body>
 </html>

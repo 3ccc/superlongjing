@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <title>test child</title>
+    <script type="text/javascript" src="http://libs.cdnjs.net/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./dist/jlongjing.min.js"></script>
+    <style>
+        a{
+            display: inline-block;
+            margin-right: 10px;
+            padding:6px 20px;
+            color:#333;
+            border:1px solid #ccc;
+            margin-top:10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<a href="javascript:void(0)" id="back">返回主页</a>
+<a href="javascript:void(0)" id="back1">返回主页,并指定url</a>
+<script>
+    $(function(){
+        $('#back').on('click',function(){
+            longjing.closeChildWindow();
+        });
+        $('#back1').on('click',function(){
+            longjing.closeChildWindow('http://www.baidu.com');
+        })
+    })
+</script>
+</body>
+</html>

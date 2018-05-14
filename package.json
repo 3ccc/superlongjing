@@ -18,5 +18,8 @@
       "name": "ccc",
       "email": "henuchrq@163.com"
     }
-  ]
+  ],
+  "dependencies": {
+    "webpack": "^4.8.3"
+  }
 }
