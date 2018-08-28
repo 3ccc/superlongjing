@@ -34,13 +34,13 @@
 </head>
 <body>
 <div style="margin-top:100px;margin-left:20px;margin-right:20px;border:1px solid #ccc;padding:10px 10px;">
+    <div >窗口类型：<span id="screenType"></span></div>
 <h2>配置测试：<span id="version"></span></h2>
-<div>测试屏保通知：<span id="tongzhi"></span></div>
 <ul>
-    <li id="open"><span>测试新开页面</span></li>
+    <li id="open"><span>打开子页面</span></li>
     <li id="update"><span>测试应用更新</span></li>
 </ul>
-    <div >v1:<span id="closeChildWindow" style="display: inline-block;width:100%;"></span></div>
+<div >屏保通知测试:<span id="ENTER_SCREENSAVERS" style="display: inline-block;width:100%;"></span></div>
 </div>
 
 <script>
@@ -60,16 +60,11 @@
                 });
             }
         });
-
-        $('#version').html(version+'  '+longjing.config('test'));
-
-        if(_url.indexOf('_xx_xx')>-1){
-            $('#closeChildWindow').html(_url);
-        }
+        $('#screenType').html(longjing.getPageType());
     });
 
     longjing.notify('ENTER_SCREENSAVERS',function(res){
-        $('#tongzhi').html('屏保通知到了')
+        $('#ENTER_SCREENSAVERS').html('屏保通知到了')
     });
 </script>
 </body>

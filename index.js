@@ -65,6 +65,8 @@ var jssdk = {
                     case 'pointNo': //  网点号
                         return ljClient.getPointNo();
                     case 'appid':// 应用号
+                    case 'appId':
+                    case 'appID':
                         return appID;
                     default:
                         return jsonConfig[attrName] || null;
@@ -119,10 +121,16 @@ var jssdk = {
     refreshMainWindow: function () {
         driver('notifyMainPage');
     },
+    getPageType:function(){
+        return driver('getPageType');
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':
                 name = 'inScreensaver';
+                break;
+            case 'APP_CMD':
+                name = 'NOTIFY_APP';
                 break;
             default:
                 break;

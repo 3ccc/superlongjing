@@ -20,8 +20,10 @@
     </style>
 </head>
 <body>
+<div >窗口类型：<span id="screenType"></span><button type="button" id="getScreenType">获取</button></div>
 <a href="javascript:void(0)" id="back">返回主页</a>
 <a href="javascript:void(0)" id="back1">返回主页,并指定url</a>
+<div>屏保通知测试:<span id="ENTER_SCREENSAVERS" style="display: inline-block;width:100%;"></span></div>
 <script>
     $(function(){
         $('#back').on('click',function(){
@@ -29,8 +31,14 @@
         });
         $('#back1').on('click',function(){
             longjing.closeChildWindow('http://lj.swao.cn/app/index.html?_xx_xx=123');
-        })
-    })
+        });
+        $('#getScreenType').on('click',function(){
+            $('#screenType').html(longjing.getPageType());
+        });
+    });
+    longjing.notify('ENTER_SCREENSAVERS',function(res){
+        $('#ENTER_SCREENSAVERS').html('屏保通知到了')
+    });
 </script>
 </body>
 </html>
