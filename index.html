@@ -5,7 +5,7 @@
     <title>测试</title>
     <link rel="stylesheet" href=""/>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <!--<script src="./lib/testENV.js"></script>-->
+    <script src="./lib/testENV.js"></script>
     <script src="./dist/jlongjing.min.js"></script>
     <style>
         *{margin:0;padding:0;}
@@ -39,6 +39,7 @@
 <ul>
     <li id="open"><span>打开子页面</span></li>
     <li id="update"><span>测试应用更新</span></li>
+    <li id="voice"><span>说话</span></li>
 </ul>
 <div >屏保通知测试:<span id="ENTER_SCREENSAVERS" style="display: inline-block;width:100%;"></span></div>
 </div>
@@ -60,7 +61,13 @@
                 });
             }
         });
-        $('#screenType').html(longjing.getPageType());
+        $('#voice').on('click',function(){
+            longjing.voice({
+                id:1111,
+                text:'测试说话的内容'
+            });
+        });
+//        $('#screenType').html(longjing.getPageType());
     });
 
     longjing.notify('ENTER_SCREENSAVERS',function(res){

@@ -67,7 +67,7 @@ var jssdk = {
                     case 'appid':// 应用号
                     case 'appId':
                     case 'appID':
-                        return appID;
+                        return typeof appID == 'object' ? appID.appId : appID;
                     default:
                         return jsonConfig[attrName] || null;
                 }
@@ -100,9 +100,9 @@ var jssdk = {
         });
     },
     closeChildWindow: function (url) {
-        if(url){
-            driver('quit',{url:url});
-        }else{
+        if (url) {
+            driver('quit', {url: url});
+        } else {
             driver('quit');
         }
     },
@@ -121,8 +121,11 @@ var jssdk = {
     refreshMainWindow: function () {
         driver('notifyMainPage');
     },
-    getPageType:function(){
+    getPageType: function () {
         return driver('getPageType');
+    },
+    voice:function(options){
+        driver('ttsSpeak',options)
     },
     notify: function (name, fn, options) {
         switch (name) {
@@ -131,6 +134,9 @@ var jssdk = {
                 break;
             case 'APP_CMD':
                 name = 'NOTIFY_APP';
+                break;
+            case 'TTS_SPEAK':
+                name = 'TTS_SPEAK';
                 break;
             default:
                 break;
