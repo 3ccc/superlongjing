@@ -125,7 +125,10 @@ var jssdk = {
         return driver('getPageType');
     },
     voice:function(options){
-        driver('ttsSpeak',options)
+        driver('ttsSpeak',options);
+    },
+    loadSuccess:function(options){
+        driver('loadSuccess',options);
     },
     notify: function (name, fn, options) {
         switch (name) {
@@ -137,6 +140,10 @@ var jssdk = {
                 break;
             case 'TTS_SPEAK':
                 name = 'TTS_SPEAK';
+                break;
+            case 'APP_SHOW':
+            case 'show':
+                name = 'APP_SHOW';
                 break;
             default:
                 break;
