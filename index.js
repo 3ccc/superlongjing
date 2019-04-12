@@ -130,6 +130,9 @@ var jssdk = {
     loadSuccess:function(options){
         driver('loadSuccess',options);
     },
+    loaded:function(options){
+        driver('loaded',options);
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':
