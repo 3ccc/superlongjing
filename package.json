@@ -1,6 +1,6 @@
 {
   "name": "superlongjing",
-  "version": "1.0.1",
+  "version": "2.1.0",
   "description": "to bridge app and html5",
   "main": "index.js",
   "scripts": {
