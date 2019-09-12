@@ -1,3 +1,15 @@
+## 使用
+#### npm安装
+```
+npm install superlongjing
+npm run build
+文件夹在 dist/jlongjing.min.js
+```
+#### 直接引用js文件
+```
+下载git后，使用dist文件夹下的jlongjing.min.js
+<script src="./dist/jlongjing.min.js"></script>
+```
 ## 介绍
 ### 概要
 小应用调用
