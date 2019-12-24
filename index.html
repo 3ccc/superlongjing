@@ -8,71 +8,132 @@
     <script src="./lib/testENV.js"></script>
     <script src="./dist/jlongjing.min.js"></script>
     <style>
-        *{margin:0;padding:0;}
-        body{
-            background:#f2f2f2;
+        * {
+            margin: 0;
+            padding: 0;
         }
-        ul,li{list-style: none;}
-        ul{
-            overflow:hidden;
+
+        body {
+            background: #f2f2f2;
         }
-        li{
+
+        ul, li {
+            list-style: none;
+        }
+
+        ul {
+            overflow: hidden;
+        }
+
+        li {
             float: left;
-            height:80px;
-            padding:10px 10px;
+            height: 50px;
+            padding: 10px 10px;
             cursor: pointer;
         }
-        span{
+
+        li>span {
             display: block;
-            width:120px;
-            height:100%;
+            width: 120px;
+            height: 50px;
+            line-height: 50px;
             text-align: center;
-            background: #F2F2F2;
-            color:#000;
+            background: #333;
+            color: #fff;
         }
     </style>
 </head>
 <body>
 <div style="margin-top:100px;margin-left:20px;margin-right:20px;border:1px solid #ccc;padding:10px 10px;">
-    <div >窗口类型：<span id="screenType"></span></div>
-<h2>配置测试：<span id="version"></span></h2>
-<ul>
-    <li id="open"><span>打开子页面</span></li>
-    <li id="update"><span>测试应用更新</span></li>
-    <li id="voice"><span>说话</span></li>
-</ul>
-<div >屏保通知测试:<span id="ENTER_SCREENSAVERS" style="display: inline-block;width:100%;"></span></div>
+    <div>窗口类型：<span id="screenType"></span></div>
+    <h2>配置测试：<span id="version"></span></h2>
+    <ul>
+        <li id="open"><span>打开子页面</span></li>
+        <li id="update"><span>测试应用更新</span></li>
+        <li id="voice"><span>说话</span></li>
+    </ul>
+    <div>屏保通知测试:<span id="ENTER_SCREENSAVERS" style="display: inline-block;width:100%;"></span></div>
 </div>
-
+<div>
+    测试定时器
+    <button type="button" id="timerOnceStart">创建一次性定时器</button>
+    <button type="button" id="timerEvenStart">创建循环定时器</button>
+    <button type="button" id="timerStop">停止定时器</button>
+    <div id="timerContent"></div>
+</div>
 <script>
     var version = '1.0.2';
     var _url = window.location.href;
-    $(function(){
-        $('#open').on('click',function(){
+    var timerIndex = 0;
+    var timerId;
+    $(function () {
+        $('#open').on('click', function () {
             longjing.openChildWindow({
-                type:'online',
-                path:'http://lj.swao.cn/app/child.html'
+                type: 'online',
+                path: 'http://lj.swao.cn/app/child.html'
             })
         });
-        $('#update').on('click',function(){
-            if(version != '1.0.2'){
+        $('#update').on('click', function () {
+            if (version != '1.0.2') {
                 longjing.upgrade({
-                    url:'http://lja.swao.cn/upload/update2018030601.zip'
+                    url: 'http://lja.swao.cn/upload/update2018030601.zip'
                 });
             }
         });
-        $('#voice').on('click',function(){
+        $('#voice').on('click', function () {
             longjing.voice({
-                id:1111,
-                text:'测试说话的内容'
+                id: 1111,
+                text: '测试说话的内容'
             });
         });
 //        $('#screenType').html(longjing.getPageType());
+        $('#timerOnceStart').on('click', function () {
+            // stopTimer();
+            timerId = 1;
+            longjing.createTimerTask({
+                isOnce: true,
+                id: timerId,
+                time: 1
+            })
+        });
+        $('#timerEvenStart').on('click', function () {
+            // stopTimer();
+            timerId = 2;
+            longjing.createTimerTask({
+                isOnce: false,
+                id: timerId,
+                time: 1
+            })
+        });
+        $('#timerStop').on('click', function () {
+            stopTimer();
+            timerIndex = 0;
+        });
     });
 
-    longjing.notify('ENTER_SCREENSAVERS',function(res){
+    function stopTimer() {
+        if (timerId)
+            longjing.stopTimerTask({
+                taskId: timerId
+            });
+    }
+
+    longjing.notify('ENTER_SCREENSAVERS', function (res) {
         $('#ENTER_SCREENSAVERS').html('屏保通知到了')
     });
+
+
+    longjing.notify('TIMER_NOTIFY', function (res) {
+        if (res.id == 1) {
+            timerIndex++;
+            $('#timerContent').html(timerIndex);
+        }else if(res.id == 2){
+            timerIndex++;
+            $('#timerContent').html('s='+timerIndex);
+        }
+    });
+
+    console.log('appVersion',longjing.getAppVersion())
 </script>
 </body>
 </html>

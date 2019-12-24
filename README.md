@@ -68,6 +68,20 @@ longjing.setQuitTime({time: 60}); // 60秒
 ```
 longjing.voice({id:'当前要播放的唯一标识',text:'播放成语音的文字'});
 ```
+#### 创建定时器(createTimerTask)
+```
+longjing.createTimerTask({
+isOnce: true,  // 默认true，false为循环定时器，true为一次性定时器
+id: 1001,// 定时器的唯一编号，运行时回调使用
+time: 1  // 单位传递的是秒，默认1分钟
+});
+```
+#### 关闭定时器(stopTimerTask)
+```
+longjing.stopTimerTask({
+taskId: 1001,  // 定时器的唯一编号，创建定时器时发起的。
+});
+```
 #### 主窗口页面加载完成通知app(loadSuccess)
 ```
 longjing.loadSuccess();
@@ -113,4 +127,4 @@ longjing.notify('事件编码', function() {
 |ENTER_SCREENSAVERS|	开始屏保|	主窗口在指定时间内没有操作，会进入屏保窗口|
 |TTS_SPEAK|	播放语音结束|	文字转语音播放结束，返回播放时传入的唯一标识|
 |APP_SHOW|	页面开始载入|	webview加载页面时，提示加载窗口，用于页面特效执行|
-
+|TIMER_NOTIFY|	定时器运行通知|	所有的定时器运行时通过该方法通知|

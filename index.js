@@ -93,6 +93,10 @@ var jssdk = {
                 break;
         }
     },
+    getAppVersion:function(){
+        var appVersion = driver('getAppVersion')
+        return typeof appVersion == 'object' ? appVersion.appVersion : appVersion;
+    },
     openChildWindow: function (options) {
         driver('open', {
             type: options.type || 'offline',
@@ -133,6 +137,12 @@ var jssdk = {
     loaded:function(options){
         driver('loaded',options);
     },
+    createTimerTask:function(options){
+        driver('createTimerTask',options);
+    },
+    stopTimerTask:function(options){
+        driver('stopTimerTask',options);
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':
@@ -148,10 +158,14 @@ var jssdk = {
             case 'show':
                 name = 'APP_SHOW';
                 break;
+            case 'NOTIFY_TIMER':
+            case 'TIMER_NOTIFY':
+                name = 'TIMER_NOTIFY';
+                break;
             default:
                 break;
         }
-        ljTsEventAction[name] = function (res) {
+        window.ljTsEventAction[name] = function (res) {
             if (fn)fn(res, options);
         };
     },
