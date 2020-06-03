@@ -61,14 +61,32 @@ longjing.refreshMainWindow();
 ```
 #### 设置子窗口无操作的自动退出秒数(setChildWindowAutoCloseSecond)
 子窗口超过秒数没有任何操作，自动退出回主窗口
+入参：
+|名称|	字段|	类型|	说明|
+|--|--|--|--|
+|无操作时长|	time|	init||
+
 ```
 longjing.setQuitTime({time: 60}); // 60秒
 ```
 #### 将文字播放成语音(voice)
+入参：
+|名称|	字段|	类型|	说明|
+|--|--|--|--|
+|唯一标识|	id|	string|当前要播放的唯一标识|
+|播放文字|	text|	string|播放成语音的文字|
 ```
 longjing.voice({id:'当前要播放的唯一标识',text:'播放成语音的文字'});
 ```
 #### 创建定时器(createTimerTask)
+
+入参：
+|名称|	字段|	类型|	说明|
+|--|--|--|--|
+|定时器类型|	isOnce|	boolean|默认true，false为循环定时器，true为一次性定时器|
+|唯一标识|	id|	string|定时器的唯一编号，运行时回调使用|
+|时长|	time|	int|单位传递的是秒，默认1分钟|
+
 ```
 longjing.createTimerTask({
 isOnce: true,  // 默认true，false为循环定时器，true为一次性定时器
@@ -77,6 +95,13 @@ time: 1  // 单位传递的是秒，默认1分钟
 });
 ```
 #### 关闭定时器(stopTimerTask)
+
+入参：
+|名称|	字段|	类型|	说明|
+|--|--|--|--|
+|唯一标识|	taskId|	string|创建定时器时入参的id|
+
+
 ```
 longjing.stopTimerTask({
 taskId: 1001,  // 定时器的唯一编号，创建定时器时发起的。
@@ -85,6 +110,18 @@ taskId: 1001,  // 定时器的唯一编号，创建定时器时发起的。
 #### 主窗口页面加载完成通知app(loadSuccess)
 ```
 longjing.loadSuccess();
+```
+#### 光带控制(changeLed)
+入参：
+|名称|	字段|	类型|	说明|
+|--|--|--|--|
+|颜色状态|	color|	int|0 关闭，1 红色，2 绿色，3 黄色|
+|类型|	type|	int|1 德睿 2 仟视|
+```
+longjing.changeLed({
+color:1,
+type:1
+});
 ```
 #### 配置读写(config)
 允许自定义配置

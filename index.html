@@ -59,6 +59,7 @@
     <button type="button" id="timerOnceStart">创建一次性定时器</button>
     <button type="button" id="timerEvenStart">创建循环定时器</button>
     <button type="button" id="timerStop">停止定时器</button>
+    <button type="button" id="changeLed">改变Led</button>
     <div id="timerContent"></div>
 </div>
 <script>
@@ -109,6 +110,12 @@
             stopTimer();
             timerIndex = 0;
         });
+        $('#changeLed').on('click',function(){
+            longjing.changeLed({
+                color: 1,
+                type: 1
+            })
+        })
     });
 
     function stopTimer() {

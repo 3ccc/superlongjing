@@ -143,6 +143,9 @@ var jssdk = {
     stopTimerTask:function(options){
         driver('stopTimerTask',options);
     },
+    changeLed:function(options){
+        driver('changeLed',options);
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':
