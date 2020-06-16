@@ -62,7 +62,8 @@ longjing.refreshMainWindow();
 #### 设置子窗口无操作的自动退出秒数(setChildWindowAutoCloseSecond)
 子窗口超过秒数没有任何操作，自动退出回主窗口
 入参：
-|名称|	字段|	类型|	说明|
+
+|名称|字段|类型|说明|
 |--|--|--|--|
 |无操作时长|	time|	init||
 
@@ -71,16 +72,19 @@ longjing.setQuitTime({time: 60}); // 60秒
 ```
 #### 将文字播放成语音(voice)
 入参：
-|名称|	字段|	类型|	说明|
+
+|名称|字段|类型|说明|
 |--|--|--|--|
 |唯一标识|	id|	string|当前要播放的唯一标识|
 |播放文字|	text|	string|播放成语音的文字|
+
 ```
 longjing.voice({id:'当前要播放的唯一标识',text:'播放成语音的文字'});
 ```
 #### 创建定时器(createTimerTask)
 
 入参：
+
 |名称|	字段|	类型|	说明|
 |--|--|--|--|
 |定时器类型|	isOnce|	boolean|默认true，false为循环定时器，true为一次性定时器|
@@ -97,10 +101,10 @@ time: 1  // 单位传递的是秒，默认1分钟
 #### 关闭定时器(stopTimerTask)
 
 入参：
+
 |名称|	字段|	类型|	说明|
 |--|--|--|--|
 |唯一标识|	taskId|	string|创建定时器时入参的id|
-
 
 ```
 longjing.stopTimerTask({
@@ -113,16 +117,40 @@ longjing.loadSuccess();
 ```
 #### 光带控制(changeLed)
 入参：
+
 |名称|	字段|	类型|	说明|
 |--|--|--|--|
 |颜色状态|	color|	int|0 关闭，1 红色，2 绿色，3 黄色|
 |类型|	type|	int|1 德睿 2 仟视|
+
 ```
 longjing.changeLed({
 color:1,
 type:1
 });
 ```
+#### 打印(printV1)
+入参：
+
+|名称|	字段|	类型|	说明|
+|--|--|--|--|
+|参数|	params|	object||
+|次数|	count|	string||
+
+```
+longjing.printV1({
+params:{},
+count:'1'
+});
+```
+
+#### 获取驱动版本号(getDriverVersion)
+入参：无
+
+```
+var driverVersion = longjing.getDriverVersion();
+```
+
 #### 配置读写(config)
 允许自定义配置
 
@@ -165,3 +193,6 @@ longjing.notify('事件编码', function() {
 |TTS_SPEAK|	播放语音结束|	文字转语音播放结束，返回播放时传入的唯一标识|
 |APP_SHOW|	页面开始载入|	webview加载页面时，提示加载窗口，用于页面特效执行|
 |TIMER_NOTIFY|	定时器运行通知|	所有的定时器运行时通过该方法通知|
+|DRIVER_GET_SCAN_CODE|	扫码结果|	|
+|DRIVER_GET_PRINT_RESULT|	打印结果|	|
+

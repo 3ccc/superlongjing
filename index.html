@@ -44,6 +44,21 @@
     </style>
 </head>
 <body>
+<div id="container"></div>
+<div class="show-area config">
+
+</div>
+
+<div class="show-area entity">
+
+</div>
+
+<div class="show-area notify">
+
+</div>
+
+
+
 <div style="margin-top:100px;margin-left:20px;margin-right:20px;border:1px solid #ccc;padding:10px 10px;">
     <div>窗口类型：<span id="screenType"></span></div>
     <h2>配置测试：<span id="version"></span></h2>
@@ -55,18 +70,100 @@
     <div>屏保通知测试:<span id="ENTER_SCREENSAVERS" style="display: inline-block;width:100%;"></span></div>
 </div>
 <div>
-    测试定时器
+    <h3>功能测试</h3>
     <button type="button" id="timerOnceStart">创建一次性定时器</button>
     <button type="button" id="timerEvenStart">创建循环定时器</button>
     <button type="button" id="timerStop">停止定时器</button>
     <button type="button" id="changeLed">改变Led</button>
+    <button type="button" id="printV1">打印</button>
+    <button type="button" id="getDriverVersion">获取驱动号</button>
     <div id="timerContent"></div>
+</div>
+<div>
+    <h3>通知测试</h3>
+    <button type="button" id="DRIVER_GET_SCAN_CODE">DRIVER_GET_SCAN_CODE</button>
+    <button type="button" id="DRIVER_GET_PRINT_RESULT">DRIVER_GET_PRINT_RESULT</button>
+    <h3>通知信息打印区域</h3>
+    <div id="notify_msg">
+
+    </div>
 </div>
 <script>
     var version = '1.0.2';
     var _url = window.location.href;
     var timerIndex = 0;
     var timerId;
+    var $notify = $('#notify_msg');
+    var btnData = {
+        config:[
+            {
+                id:'DRIVER_GET_SCAN_CODE',
+                name:'DRIVER_GET_SCAN_CODE',
+                data:{
+                    code:0
+                }
+            }
+        ],
+        entity:[
+            {
+                id:'timerOnceStart',
+                fn:'createTimerTask',
+                name:'创建一次性定时器',
+                param:{
+                    isOnce: true,
+                    id: 1,
+                    time: 1
+                }
+            },
+            {
+                name:'打开子页面',
+                fn:'openChildWindow',
+                param:{
+                    type: 'online',
+                    path: 'http://lj.swao.cn/app/child.html'
+                }
+            },
+            {
+                name:'发音',
+                fn:'voice',
+                param:{
+                    id: 1111,
+                    text: '测试说话的内容'
+                }
+            }
+        ],
+        notify:[
+            {
+                id:'DRIVER_GET_SCAN_CODE',
+                fn:'DRIVER_GET_SCAN_CODE',
+                name:'DRIVER_GET_SCAN_CODE',
+                data:{
+                    code:0
+                }
+            }, {
+                id:'DRIVER_GET_PRINT_RESULT',
+                fn:'DRIVER_GET_PRINT_RESULT',
+                name:'DRIVER_GET_PRINT_RESULT',
+                data:{
+                    code:0
+                }
+            }, {
+                id:'ENTER_SCREENSAVERS',
+                fn:'ENTER_SCREENSAVERS',
+                name:'ENTER_SCREENSAVERS',
+                data:{
+                    code:0
+                }
+            }
+
+        ]
+    };
+
+    function render(){
+
+    }
+
+
     $(function () {
         $('#open').on('click', function () {
             longjing.openChildWindow({
@@ -115,7 +212,25 @@
                 color: 1,
                 type: 1
             })
+        });
+        $('#printV1').on('click',function(){
+            longjing.printV1({
+                params: {name:1,x:100,y:100,w:100,h:100},
+                count: 11
+            })
+        });
+        $('#getDriverVersion').on('click',function(){
+            console.log('getDriverVersion',longjing.getDriverVersion())
         })
+        $('#DRIVER_GET_SCAN_CODE').on('click',function(){
+            ljTsEventAction['DRIVER_GET_SCAN_CODE']({'code':123})
+        })
+        $('#DRIVER_GET_PRINT_RESULT').on('click',function(){
+            ljTsEventAction['DRIVER_GET_PRINT_RESULT']({'code':0})
+        })
+
+
+
     });
 
     function stopTimer() {
@@ -139,6 +254,16 @@
             $('#timerContent').html('s='+timerIndex);
         }
     });
+
+    longjing.notify('DRIVER_GET_CARD_NUM',function(res){
+        $notify.append('<p><span style="color: red;">DRIVER_GET_CARD_NUM</span>'+JSON.stringify(res)+'</p>')
+    })
+    longjing.notify('DRIVER_GET_SCAN_CODE',function(res){
+        $notify.append('<p><span style="color: red;">DRIVER_GET_SCAN_CODE</span>'+JSON.stringify(res)+'</p>')
+    })
+    longjing.notify('DRIVER_GET_PRINT_RESULT',function(res){
+        $notify.append('<p><span style="color: red;">DRIVER_GET_PRINT_RESULT</span>'+JSON.stringify(res)+'</p>')
+    })
 
     console.log('appVersion',longjing.getAppVersion())
 </script>

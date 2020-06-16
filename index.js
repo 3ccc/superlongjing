@@ -146,6 +146,12 @@ var jssdk = {
     changeLed:function(options){
         driver('changeLed',options);
     },
+    printV1:function(options){
+        driver('printV1',options);
+    },
+    getDriverVersion: function () {
+        return driver('getDriverVersion');
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':
@@ -164,6 +170,15 @@ var jssdk = {
             case 'NOTIFY_TIMER':
             case 'TIMER_NOTIFY':
                 name = 'TIMER_NOTIFY';
+                break;
+            case 'DRIVER_GET_CARD_NUM':
+                name = 'DRIVER_GET_CARD_NUM';
+                break;
+            case 'DRIVER_GET_SCAN_CODE':
+                name = 'DRIVER_GET_SCAN_CODE'
+                break;
+            case 'DRIVER_GET_PRINT_RESULT':
+                name = 'DRIVER_GET_PRINT_RESULT'
                 break;
             default:
                 break;
