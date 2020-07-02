@@ -152,6 +152,9 @@ var jssdk = {
     getDriverVersion: function () {
         return driver('getDriverVersion');
     },
+    compareFace1V1:function(options){
+        return driver('compareFace1V1',options);
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':

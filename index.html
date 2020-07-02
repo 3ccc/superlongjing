@@ -261,6 +261,12 @@
     longjing.notify('DRIVER_GET_SCAN_CODE',function(res){
         $notify.append('<p><span style="color: red;">DRIVER_GET_SCAN_CODE</span>'+JSON.stringify(res)+'</p>')
     })
+
+    longjing.notify('DRIVER_GET_SCAN_CODE',function(res){
+        alert(JSON.stringify(res))
+    })
+
+
     longjing.notify('DRIVER_GET_PRINT_RESULT',function(res){
         $notify.append('<p><span style="color: red;">DRIVER_GET_PRINT_RESULT</span>'+JSON.stringify(res)+'</p>')
     })

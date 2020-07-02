@@ -151,6 +151,29 @@ count:'1'
 var driverVersion = longjing.getDriverVersion();
 ```
 
+#### 人脸对比身份证(compareFace1V1)
+入参：
+
+|名称|	字段|	类型|	说明|
+|--|--|--|--|
+|人脸图片|	face|	string|base64格式|
+|身份证图片|	idCard|	string|base64格式|
+
+出参：
+
+|名称|	字段|	类型|	说明|
+|--|--|--|--|
+|截图人脸的图片|	face|	string|base64格式|
+|编码|	code|	int|0  成功,  -1 人脸SDK初始化失败  -2 人脸采集图片未检测到人脸,  1 人证对比失败|
+
+```
+var faceRes = longjing.compareFace1V1({
+face:'base64格式',
+idCard:'base64格式'
+});
+
+```
+
 #### 配置读写(config)
 允许自定义配置
 
