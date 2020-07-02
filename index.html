@@ -77,6 +77,7 @@
     <button type="button" id="changeLed">改变Led</button>
     <button type="button" id="printV1">打印</button>
     <button type="button" id="getDriverVersion">获取驱动号</button>
+    <button type="button" id="compareFace1V1">人脸对比身份证</button>
     <div id="timerContent"></div>
 </div>
 <div>
@@ -228,7 +229,13 @@
         $('#DRIVER_GET_PRINT_RESULT').on('click',function(){
             ljTsEventAction['DRIVER_GET_PRINT_RESULT']({'code':0})
         })
-
+        $('#compareFace1V1').on('click',function(){
+            var faceRes = longjing.compareFace1V1({
+                face:'base64格式',
+                idCard:'base64格式'
+            });
+            console.log('faceRes',faceRes)
+        })
 
 
     });
