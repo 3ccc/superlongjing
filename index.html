@@ -220,6 +220,7 @@
             {
                 name:'takePicture',
                 fn:'takePicture',
+                hasReturn:1,
                 data:{
                     isCrop:false,
                     offset:1
@@ -277,13 +278,13 @@
         var entityHtml = '';
         var notifyHtml = '';
         btnData.config.forEach(d=>{
-            configHtml+= '<div class="btn" data-fn="'+d.fn+'" onclick="'+d.fn+'(this)">'+d.name+'</div>'
+            configHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'" onclick="'+d.fn+'(this)">'+d.name+'</div>'
         });
         btnData.entity.forEach(d=>{
-            entityHtml+= '<div class="btn" data-fn="'+d.fn+'" onclick="'+d.fn+'(this)">'+d.name+'</div>'
+            entityHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'"  onclick="'+d.fn+'(this)">'+d.name+'</div>'
         });
         btnData.notify.forEach(d=>{
-            notifyHtml+= '<div class="btn" data-fn="'+d.fn+'" onclick="'+d.fn+'(this)">'+d.name+'</div>'
+            notifyHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'"  onclick="'+d.fn+'(this)">'+d.name+'</div>'
         });
         configHtml = '<h3>配置测试</h3><div class="btn-list">'+configHtml+'</div>';
         entityHtml = '<h3>功能测试</h3><div class="btn-list">'+entityHtml+'</div>';
@@ -312,8 +313,14 @@
 
     function handleEntity($el,callback) {
         var fn = $el.attr('data-fn');
+        var hasReturn = $el.attr('data-return') == 1;
         var data = getData(fn);
-        data ? longjing[fn](data) : longjing[fn]();
+        if(hasReturn){
+            var res = (data ? longjing[fn](data) : longjing[fn]());
+            $rst.append('<p>执行 '+fn+',出参：'+JSON.stringify(res));
+        }else{
+            data ? longjing[fn](data) : longjing[fn]();
+        }
         if(callback)callback();
     }
 
@@ -367,6 +374,11 @@
     }
     function takePicture(el){
         handleEntity($(el))
+        // var $el = $(el);
+        // var fn = $el.attr('data-fn');
+        // var data = getData(fn);
+        // var res = JSON.stringify(longjing.takePicture(data));
+        // $rst.append('<p>执行 '+fn+',出参：'+res);
     }
     function startFaceComparison(el){
         handleEntity($(el))
