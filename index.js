@@ -155,6 +155,21 @@ var jssdk = {
     compareFace1V1:function(options){
         return driver('compareFace1V1',options);
     },
+    openCameraPreview:function(options){
+        driver('openCameraPreview',options);
+    },
+    closeCameraPreview:function(){
+        driver('closeCameraPreview');
+    },
+    takePicture:function(options){
+        return driver('takePicture',options);
+    },
+    startFaceComparison:function(options){
+        driver('startFaceComparison',options);
+    },
+    stopFaceComparison:function(){
+        driver('stopFaceComparison');
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':
@@ -178,10 +193,13 @@ var jssdk = {
                 name = 'DRIVER_GET_CARD_NUM';
                 break;
             case 'DRIVER_GET_SCAN_CODE':
-                name = 'DRIVER_GET_SCAN_CODE'
+                name = 'DRIVER_GET_SCAN_CODE';
                 break;
             case 'DRIVER_GET_PRINT_RESULT':
-                name = 'DRIVER_GET_PRINT_RESULT'
+                name = 'DRIVER_GET_PRINT_RESULT';
+                break;
+            case 'FACE_COMPARISON_RESULT':
+                name = 'FACE_COMPARISON_RESULT';
                 break;
             default:
                 break;
