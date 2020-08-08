@@ -149,6 +149,9 @@ var jssdk = {
     printV1:function(options){
         driver('printV1',options);
     },
+    printV2:function(options){
+        driver('printV2',options);
+    },
     getDriverVersion: function () {
         return driver('getDriverVersion');
     },
@@ -169,6 +172,9 @@ var jssdk = {
     },
     stopFaceComparison:function(){
         driver('stopFaceComparison');
+    },
+    connectPrinter:function(options){
+        return driver('connectPrinter',options);
     },
     notify: function (name, fn, options) {
         switch (name) {

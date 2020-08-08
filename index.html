@@ -190,6 +190,25 @@
                 }
             },
             {
+                name:'printV2',
+                fn:'printV2',
+                data:{
+                    params: {
+                        "title": "xxx",
+                        "name": "xxx",
+                        "phone": "xxx",
+                        "company": "xxx",
+                        "intervieweeName": "xxx",
+                        "reasonName": "xxx",
+                        "arrivalTime": "xxx",
+                        "pinCode": "xxx",
+                        "shortCode": "xxx",
+                        "logo": "base64"//没有前缀
+                    },
+                    count: 11
+                }
+            },
+            {
                 name:'getDriverVersion',
                 fn:'getDriverVersion'
             },
@@ -239,6 +258,15 @@
             {
                 name:'stopFaceComparison',
                 fn:'stopFaceComparison'
+            },
+            {
+                name:'connectPrinter',
+                fn:'connectPrinter',
+                hasReturn:1,
+                data:{
+                    ip:'100:0.0.100',
+                    port:10001
+                }
             }
         ],
         notify:[
@@ -339,69 +367,79 @@
         console.log($(el).attr('data-notify'))
         console.log('DRIVER_GET_SCAN_CODE')
     }
-    function openChildWindow(el){
-        handleEntity($(el))
+
+    // 自动生成功能函数
+    for(var i =0,len = btnData.entity.length;i<len;i++){
+        eval('function '+btnData.entity.fn+'(el){handleEntity($(el))}');
     }
-    function upgrade(el){
-        handleEntity($(el))
+    // function openChildWindow(el){
+    //     handleEntity($(el))
+    // }
+    // function upgrade(el){
+    //     handleEntity($(el))
+    // }
+    // function voice(el){
+    //     handleEntity($(el))
+    // }
+    // function createTimerTask(el){
+    //     handleEntity($(el))
+    // }
+    // function stopTimerTask(el){
+    //     handleEntity($(el))
+    // }
+    // function changeLed(el){
+    //     handleEntity($(el))
+    // }
+    // function printV1(el){
+    //     handleEntity($(el))
+    // }
+    // function getDriverVersion(el){
+    //     handleEntity($(el))
+    // }
+    // function compareFace1V1(el){
+    //     handleEntity($(el))
+    // }
+    // function openCameraPreview(el){
+    //     handleEntity($(el))
+    // }
+    // function closeCameraPreview(el){
+    //     handleEntity($(el))
+    // }
+    // function takePicture(el){
+    //     handleEntity($(el))
+    //     // var $el = $(el);
+    //     // var fn = $el.attr('data-fn');
+    //     // var data = getData(fn);
+    //     // var res = JSON.stringify(longjing.takePicture(data));
+    //     // $rst.append('<p>执行 '+fn+',出参：'+res);
+    // }
+    // function startFaceComparison(el){
+    //     handleEntity($(el))
+    // }
+    // function stopFaceComparison(el){
+    //     handleEntity($(el))
+    // }
+
+    // 自动生成通知函数
+    for(var i =0,len = btnData.notify.length;i<len;i++){
+        eval('function '+btnData.notify.fn+'(el){handleNotify($(el))}');
     }
-    function voice(el){
-        handleEntity($(el))
-    }
-    function createTimerTask(el){
-        handleEntity($(el))
-    }
-    function stopTimerTask(el){
-        handleEntity($(el))
-    }
-    function changeLed(el){
-        handleEntity($(el))
-    }
-    function printV1(el){
-        handleEntity($(el))
-    }
-    function getDriverVersion(el){
-        handleEntity($(el))
-    }
-    function compareFace1V1(el){
-        handleEntity($(el))
-    }
-    function openCameraPreview(el){
-        handleEntity($(el))
-    }
-    function closeCameraPreview(el){
-        handleEntity($(el))
-    }
-    function takePicture(el){
-        handleEntity($(el))
-        // var $el = $(el);
-        // var fn = $el.attr('data-fn');
-        // var data = getData(fn);
-        // var res = JSON.stringify(longjing.takePicture(data));
-        // $rst.append('<p>执行 '+fn+',出参：'+res);
-    }
-    function startFaceComparison(el){
-        handleEntity($(el))
-    }
-    function stopFaceComparison(el){
-        handleEntity($(el))
-    }
-    // 以下为通知方法
-    function DRIVER_GET_SCAN_CODE(el){
-        handleNotify($(el))
-    }
-    function DRIVER_GET_PRINT_RESULT(el){
-        handleNotify($(el))
-    }
-    function DRIVER_GET_CARD_NUM(el){
-        handleNotify($(el))
-    }
-    function inScreensaver(el){
-        handleNotify($(el))
-    }
-    function FACE_COMPARISON_RESULT(el){
-        handleNotify($(el))
-    }
+    // // 以下为通知方法
+    // function DRIVER_GET_SCAN_CODE(el){
+    //     handleNotify($(el))
+    // }
+    // function DRIVER_GET_PRINT_RESULT(el){
+    //     handleNotify($(el))
+    // }
+    // function DRIVER_GET_CARD_NUM(el){
+    //     handleNotify($(el))
+    // }
+    // function inScreensaver(el){
+    //     handleNotify($(el))
+    // }
+    // function FACE_COMPARISON_RESULT(el){
+    //     handleNotify($(el))
+    // }
 
 
     // todo 非手动可测试的通知如何处理？
