@@ -306,31 +306,20 @@
         var entityHtml = '';
         var notifyHtml = '';
         btnData.config.forEach(d=>{
-            configHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'" onclick="'+d.fn+'(this)">'+d.name+'</div>'
+            configHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'" >'+d.name+'</div>'
         });
         btnData.entity.forEach(d=>{
-            entityHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'"  onclick="'+d.fn+'(this)">'+d.name+'</div>'
+            entityHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'"  >'+d.name+'</div>'
         });
         btnData.notify.forEach(d=>{
-            notifyHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'"  onclick="'+d.fn+'(this)">'+d.name+'</div>'
+            notifyHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'"  >'+d.name+'</div>'
         });
-        configHtml = '<h3>配置测试</h3><div class="btn-list">'+configHtml+'</div>';
-        entityHtml = '<h3>功能测试</h3><div class="btn-list">'+entityHtml+'</div>';
-        notifyHtml = '<h3>通知测试</h3><div class="btn-list">'+notifyHtml+'</div>';
+        configHtml = '<h3>配置测试</h3><div class="btn-list" id="config_evt">'+configHtml+'</div>';
+        entityHtml = '<h3>功能测试</h3><div class="btn-list" id="entity_evt">'+entityHtml+'</div>';
+        notifyHtml = '<h3>通知测试</h3><div class="btn-list" id="notify_evt">'+notifyHtml+'</div>';
         $entity_list.html(configHtml+entityHtml+notifyHtml);
     }
-    $(function(){
-        render();
-        btnData.notify.forEach(d=>{
-            console.log('注册的notify方法:'+d.fn)
-            longjing.notify(d.fn,function(res){
-                $rst.append('<p><span style="color: red;">'+d.fn+'</span>'+JSON.stringify(res)+'</p>')
-            })
-        })
-        $('#btn_clear').on('click',function(){
-            $rst.html('');
-        })
-    });
+
     function getData(fn) {
         var data = null;
         btnData.config.forEach(d=>{if(fn == d.fn)data = d.data;});
@@ -343,6 +332,7 @@
         var fn = $el.attr('data-fn');
         var hasReturn = $el.attr('data-return') == 1;
         var data = getData(fn);
+        console.log('fn',fn)
         if(hasReturn){
             var res = (data ? longjing[fn](data) : longjing[fn]());
             $rst.append('<p>执行 '+fn+',出参：'+JSON.stringify(res));
@@ -368,80 +358,6 @@
         console.log('DRIVER_GET_SCAN_CODE')
     }
 
-    // 自动生成功能函数
-    for(var i =0,len = btnData.entity.length;i<len;i++){
-        eval('function '+btnData.entity.fn+'(el){handleEntity($(el))}');
-    }
-    // function openChildWindow(el){
-    //     handleEntity($(el))
-    // }
-    // function upgrade(el){
-    //     handleEntity($(el))
-    // }
-    // function voice(el){
-    //     handleEntity($(el))
-    // }
-    // function createTimerTask(el){
-    //     handleEntity($(el))
-    // }
-    // function stopTimerTask(el){
-    //     handleEntity($(el))
-    // }
-    // function changeLed(el){
-    //     handleEntity($(el))
-    // }
-    // function printV1(el){
-    //     handleEntity($(el))
-    // }
-    // function getDriverVersion(el){
-    //     handleEntity($(el))
-    // }
-    // function compareFace1V1(el){
-    //     handleEntity($(el))
-    // }
-    // function openCameraPreview(el){
-    //     handleEntity($(el))
-    // }
-    // function closeCameraPreview(el){
-    //     handleEntity($(el))
-    // }
-    // function takePicture(el){
-    //     handleEntity($(el))
-    //     // var $el = $(el);
-    //     // var fn = $el.attr('data-fn');
-    //     // var data = getData(fn);
-    //     // var res = JSON.stringify(longjing.takePicture(data));
-    //     // $rst.append('<p>执行 '+fn+',出参：'+res);
-    // }
-    // function startFaceComparison(el){
-    //     handleEntity($(el))
-    // }
-    // function stopFaceComparison(el){
-    //     handleEntity($(el))
-    // }
-
-    // 自动生成通知函数
-    for(var i =0,len = btnData.notify.length;i<len;i++){
-        eval('function '+btnData.notify.fn+'(el){handleNotify($(el))}');
-    }
-    // // 以下为通知方法
-    // function DRIVER_GET_SCAN_CODE(el){
-    //     handleNotify($(el))
-    // }
-    // function DRIVER_GET_PRINT_RESULT(el){
-    //     handleNotify($(el))
-    // }
-    // function DRIVER_GET_CARD_NUM(el){
-    //     handleNotify($(el))
-    // }
-    // function inScreensaver(el){
-    //     handleNotify($(el))
-    // }
-    // function FACE_COMPARISON_RESULT(el){
-    //     handleNotify($(el))
-    // }
-
-
     // todo 非手动可测试的通知如何处理？
     longjing.notify('TIMER_NOTIFY', function (res) {
         if (res.id == 1) {
@@ -451,6 +367,25 @@
             timerIndex++;
             $('#timerContent').html('s='+timerIndex);
         }
+    });
+
+    $(function(){
+        render();
+        btnData.notify.forEach(d=>{
+            console.log('注册的notify方法:'+d.fn)
+            longjing.notify(d.fn,function(res){
+                $rst.append('<p><span style="color: red;">'+d.fn+'</span>'+JSON.stringify(res)+'</p>')
+            })
+        })
+        $('#btn_clear').on('click',function(){
+            $rst.html('');
+        })
+        $('#entity_evt').on('click','.btn',function(e){
+            handleEntity($(e.target));
+        })
+        $('#notify_evt').on('click','.btn',function(e){
+            handleNotify($(e.target));
+        })
     });
 </script>
 </body>
