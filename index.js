@@ -176,6 +176,9 @@ var jssdk = {
     connectPrinter:function(options){
         return driver('connectPrinter',options);
     },
+    printTec:function(options){
+        driver('printTec',options);
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':

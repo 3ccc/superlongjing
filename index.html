@@ -267,6 +267,14 @@
                     ip:'100:0.0.100',
                     port:10001
                 }
+            },
+            {
+                name:'printTec',
+                fn:'printTec',
+                data:{
+                    command:[],
+                    execution:{}
+                }
             }
         ],
         notify:[
@@ -279,9 +287,7 @@
             }, {
                 fn:'DRIVER_GET_PRINT_RESULT',
                 name:'DRIVER_GET_PRINT_RESULT',
-                data:{
-                    code:0
-                }
+                data:{"fn":"DRIVER_GET_PRINT_RESULT","code":-1,"message":"打印机未连接","data":null}
             }, {
                 fn:'inScreensaver',
                 name:'ENTER_SCREENSAVERS',
@@ -373,8 +379,9 @@
         render();
         btnData.notify.forEach(d=>{
             console.log('注册的notify方法:'+d.fn)
-            longjing.notify(d.fn,function(res){
-                $rst.append('<p><span style="color: red;">'+d.fn+'</span>'+JSON.stringify(res)+'</p>')
+            longjing.notify(d.fn,(result)=>{
+                console.log('打印通知1==='+JSON.stringify(result))
+                $rst.append('<p><span style="color: red;">'+d.fn+'</span>'+JSON.stringify(result)+'</p>')
             })
         })
         $('#btn_clear').on('click',function(){
@@ -386,6 +393,7 @@
         $('#notify_evt').on('click','.btn',function(e){
             handleNotify($(e.target));
         })
+
     });
 </script>
 </body>
