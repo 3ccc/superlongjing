@@ -1,4 +1,5 @@
-var driver = require("./lib/driver");
+import driver from "./lib/driver"
+import bridge from "./lib/longjingBridge";
 var ljClient = {
     getDeviceNumber: function () { // 获取设备号
         return this.get().clientNumber || null;
@@ -27,7 +28,7 @@ var jssdk = {
     test: function () {
         return 'hello world'
     },
-    config: function () { // todo 同步还是异步
+    config: function () {
         var set = function () {
             var config = get();
             var arg0 = arguments[0];
@@ -59,7 +60,11 @@ var jssdk = {
             if (attrName) {
                 switch (attrName) {
                     case 'deviceNumber': //  终端号  设备号
+                    case 'terminalNo':
+                    case 'terminalNO':
                         return ljClient.getDeviceNumber();
+                    case 'terminalId':
+                        break;
                     case 'sellerId': // 商户号
                         return ljClient.getSellerId();
                     case 'pointNo': //  网点号
@@ -213,22 +218,18 @@ var jssdk = {
             default:
                 break;
         }
-        window.ljTsEventAction[name] = function (res) {
-            if (fn)fn(res, options);
-        };
+
+        if(options){
+            bridge.register(name,options,fn);
+        }else{
+            bridge.register(name,fn);
+        }
     },
     ready: function (fn) { // todo config是否异步通知，设置完成后执行
         fn();
     }
 };
-
-// 内置方法
-(function () {
-    function timer() {
-        if (jssdk.config('')) {
-
-        }
-    }
-})();
+jssdk.call = bridge.call;
+jssdk.register = bridge.register;
 
 module.exports = jssdk;
