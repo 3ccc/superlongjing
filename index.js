@@ -207,6 +207,9 @@ var jssdk = {
             case 'FACE_COMPARISON_RESULT':
                 name = 'FACE_COMPARISON_RESULT';
                 break;
+            case 'SOFT_INPUT_CHANGED':
+                name = 'SOFT_INPUT_CHANGED';
+                break;
             default:
                 break;
         }

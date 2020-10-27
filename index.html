@@ -280,7 +280,8 @@
                 fn:'DRIVER_GET_PRINT_RESULT',
                 name:'DRIVER_GET_PRINT_RESULT',
                 data:{
-                    code:0
+                    code:-1,
+                    msg:'找不到打印机'
                 }
             }, {
                 fn:'inScreensaver',
@@ -294,6 +295,15 @@
                 data:{
                     code:0,
                     image:'../../image/header.png'
+                }
+            }, {
+                fn:'SOFT_INPUT_CHANGED',
+                name:'SOFT_INPUT_CHANGED',
+                data:{
+                    code:0
+                },
+                options:{
+                    visible:false
                 }
             }
 
@@ -346,7 +356,9 @@
         var fn = $el.attr('data-fn');
         var data = getData(fn);
         try{
-            ljTsEventAction[fn](data);
+            data.fn = fn;
+            window.onTsEvent(data);
+            // ljTsEventAction[fn](data);
         }catch (e) {
             console.log('执行notify发生异常,方法名:('+fn+')数据：'+JSON.stringify(data));
         }
@@ -373,9 +385,16 @@
         render();
         btnData.notify.forEach(d=>{
             console.log('注册的notify方法:'+d.fn)
-            longjing.notify(d.fn,function(res){
-                $rst.append('<p><span style="color: red;">'+d.fn+'</span>'+JSON.stringify(res)+'</p>')
-            })
+            if(d.options){
+                longjing.notify(d.fn,function(res){
+                    $rst.append('<p><span style="color: red;">'+d.fn+',入参： </span>'+JSON.stringify(d.options)+'</p>')
+                    $rst.append('<p><span style="color: red;">'+d.fn+',通知： </span>'+JSON.stringify(res)+'</p>')
+                },d.options);
+            }else{
+                longjing.notify(d.fn,function(res){
+                    $rst.append('<p><span style="color: red;">'+d.fn+'</span>'+JSON.stringify(res)+'</p>')
+                })
+            }
         })
         $('#btn_clear').on('click',function(){
             $rst.html('');
