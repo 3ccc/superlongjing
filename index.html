@@ -132,7 +132,9 @@
     var timerId;
     var $rst = $('#result_show');
     var btnData = {
-        config:[],
+        config:[
+            'deviceNumber','sellerId','pointNo','appId'
+        ],
         entity:[
             {
                 fn:'createTimerTask',
@@ -279,6 +281,13 @@
         ],
         notify:[
             {
+                fn:'TTS_SPEAK',
+                name:'TTS_SPEAK',
+                data:{
+                    code:0
+                }
+            },
+            {
                 fn:'DRIVER_GET_SCAN_CODE',
                 name:'DRIVER_GET_SCAN_CODE',
                 data:{
@@ -312,7 +321,8 @@
         var entityHtml = '';
         var notifyHtml = '';
         btnData.config.forEach(d=>{
-            configHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'" >'+d.name+'</div>'
+            console.log(d);
+            configHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'" >'+longjing.config(d)+'</div>'
         });
         btnData.entity.forEach(d=>{
             entityHtml+= '<div class="btn" data-fn="'+d.fn+'" data-return="'+d.hasReturn+'"  >'+d.name+'</div>'

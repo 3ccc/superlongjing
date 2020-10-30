@@ -1,5 +1,6 @@
-import driver from "./lib/driver"
-import bridge from "./lib/longjingBridge";
+var driver = require("./lib/driver");
+var bridge = require("./lib/longjingBridge");
+
 var ljClient = {
     getDeviceNumber: function () { // 获取设备号
         return this.get().clientNumber || null;
@@ -22,6 +23,14 @@ var ljClient = {
     }
 };
 
+function isClientInfo(name) {
+    var infos = ['deviceNumber', 'terminalNo', 'terminalNO', 'terminalId', 'sellerId', 'pointNo', 'appid', 'appId', 'appID'];
+    for (var i = 0, len = infos.length; i < len; i++) {
+        if (name == infos[i]) return true;
+    }
+    return false;
+}
+
 var appID = driver('getAppID');
 
 var jssdk = {
@@ -32,7 +41,7 @@ var jssdk = {
         var set = function () {
             var config = get();
             var arg0 = arguments[0];
-            if (typeof  arg0 == 'object') {
+            if (typeof arg0 == 'object') {
                 for (var name in arg0) {
                     config[name] = arg0[name];
                 }
@@ -42,30 +51,7 @@ var jssdk = {
             driver('writeConfig', {content: JSON.stringify(config)});
         };
         var get = function (attrName) {
-            var config = driver('readConfig') || {};
-            var jsonConfig = {};
-            try {
-                if (typeof config.content == 'string') {
-                    var deep = 0;
-                    function deepParseJson(result){
-                        deep++;
-                        if (typeof result == 'object') return result;
-                        if(deep <= 3){
-                            return deepParseJson(JSON.parse(result));
-                        }else{
-                            console.log('JSON字符串深度太深，解析发生异常。');
-                            return {};
-                        }
-                    }
-                    jsonConfig = deepParseJson(JSON.parse(config.content) || {})
-                } else {
-                    jsonConfig = config.content || {};
-                }
-            } catch (e) {
-                jsonConfig = config.content || {};
-                console.log('读取配置时，数据处理异常');
-            }
-            if (attrName) {
+            if (isClientInfo(attrName)){
                 switch (attrName) {
                     case 'deviceNumber': //  终端号  设备号
                     case 'terminalNo':
@@ -82,11 +68,39 @@ var jssdk = {
                     case 'appID':
                         return typeof appID == 'object' ? appID.appId : appID;
                     default:
-                        return jsonConfig[attrName] || null;
+                        return null;
                 }
+            }else{
+                var config = driver('readConfig') || {};
+                var jsonConfig = {};
+                try {
+                    if (typeof config.content == 'string') {
+                        var deep = 0;
 
+                        function deepParseJson(result) {
+                            deep++;
+                            if (typeof result == 'object') return result;
+                            if (deep <= 3) {
+                                return deepParseJson(JSON.parse(result));
+                            } else {
+                                console.log('JSON字符串深度太深，解析发生异常。');
+                                return {};
+                            }
+                        }
+
+                        jsonConfig = deepParseJson(JSON.parse(config.content) || {})
+                    } else {
+                        jsonConfig = config.content || {};
+                    }
+                } catch (e) {
+                    jsonConfig = config.content || {};
+                    console.log('读取配置时，数据处理异常');
+                }
+                if (attrName) {
+                    return jsonConfig[attrName] || null;
+                }
+                return jsonConfig;
             }
-            return jsonConfig;
         };
         switch (arguments.length) {
             case 2:
@@ -106,7 +120,7 @@ var jssdk = {
                 break;
         }
     },
-    getAppVersion:function(){
+    getAppVersion: function () {
         var appVersion = driver('getAppVersion')
         return typeof appVersion == 'object' ? appVersion.appVersion : appVersion;
     },
@@ -141,56 +155,56 @@ var jssdk = {
     getPageType: function () {
         return driver('getPageType');
     },
-    voice:function(options){
-        driver('ttsSpeak',options);
+    voice: function (options) {
+        driver('ttsSpeak', options);
     },
-    loadSuccess:function(options){
-        driver('loadSuccess',options);
+    loadSuccess: function (options) {
+        driver('loadSuccess', options);
     },
-    loaded:function(options){
-        driver('loaded',options);
+    loaded: function (options) {
+        driver('loaded', options);
     },
-    createTimerTask:function(options){
-        driver('createTimerTask',options);
+    createTimerTask: function (options) {
+        driver('createTimerTask', options);
     },
-    stopTimerTask:function(options){
-        driver('stopTimerTask',options);
+    stopTimerTask: function (options) {
+        driver('stopTimerTask', options);
     },
-    changeLed:function(options){
-        driver('changeLed',options);
+    changeLed: function (options) {
+        driver('changeLed', options);
     },
-    printV1:function(options){
-        driver('printV1',options);
+    printV1: function (options) {
+        driver('printV1', options);
     },
-    printV2:function(options){
-        driver('printV2',options);
+    printV2: function (options) {
+        driver('printV2', options);
     },
     getDriverVersion: function () {
         return driver('getDriverVersion');
     },
-    compareFace1V1:function(options){
-        return driver('compareFace1V1',options);
+    compareFace1V1: function (options) {
+        return driver('compareFace1V1', options);
     },
-    openCameraPreview:function(options){
-        driver('openCameraPreview',options);
+    openCameraPreview: function (options) {
+        driver('openCameraPreview', options);
     },
-    closeCameraPreview:function(){
+    closeCameraPreview: function () {
         driver('closeCameraPreview');
     },
-    takePicture:function(options){
-        return driver('takePicture',options);
+    takePicture: function (options) {
+        return driver('takePicture', options);
     },
-    startFaceComparison:function(options){
-        driver('startFaceComparison',options);
+    startFaceComparison: function (options) {
+        driver('startFaceComparison', options);
     },
-    stopFaceComparison:function(){
+    stopFaceComparison: function () {
         driver('stopFaceComparison');
     },
-    connectPrinter:function(options){
-        return driver('connectPrinter',options);
+    connectPrinter: function (options) {
+        return driver('connectPrinter', options);
     },
-    printTec:function(options){
-        driver('printTec',options);
+    printTec: function (options) {
+        driver('printTec', options);
     },
     notify: function (name, fn, options) {
         switch (name) {
@@ -226,17 +240,18 @@ var jssdk = {
             default:
                 break;
         }
-        if(options){
-            bridge.register(name,options,fn);
-        }else{
-            bridge.register(name,fn);
+        if (options) {
+            bridge.register(name, options, fn);
+        } else {
+            bridge.register(name, fn);
         }
     },
     ready: function (fn) { // todo config是否异步通知，设置完成后执行
         fn();
     }
 };
+var __longjing = longjing || {};
 for (var attr in jssdk) {
-    longjing[attr] = jssdk[attr];
+    __longjing[attr] = jssdk[attr];
 }
-module.exports = longjing;
+module.exports = __longjing;
