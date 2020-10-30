@@ -46,10 +46,18 @@ var jssdk = {
             var jsonConfig = {};
             try {
                 if (typeof config.content == 'string') {
-                    jsonConfig = (function (result) {
+                    var deep = 0;
+                    function deepParseJson(result){
+                        deep++;
                         if (typeof result == 'object') return result;
-                        return arguments.callee(JSON.parse(result));
-                    })((JSON.parse(config.content) || {}));
+                        if(deep <= 3){
+                            return deepParseJson(JSON.parse(result));
+                        }else{
+                            console.log('JSON字符串深度太深，解析发生异常。');
+                            return {};
+                        }
+                    }
+                    jsonConfig = deepParseJson(JSON.parse(config.content) || {})
                 } else {
                     jsonConfig = config.content || {};
                 }
@@ -218,7 +226,6 @@ var jssdk = {
             default:
                 break;
         }
-
         if(options){
             bridge.register(name,options,fn);
         }else{
@@ -229,7 +236,7 @@ var jssdk = {
         fn();
     }
 };
-jssdk.call = bridge.call;
-jssdk.register = bridge.register;
-
-module.exports = jssdk;
+for (var attr in jssdk) {
+    longjing[attr] = jssdk[attr];
+}
+module.exports = longjing;
