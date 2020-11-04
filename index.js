@@ -1,6 +1,6 @@
 var driver = require("./lib/driver");
 var bridge = require("./lib/longjingBridge");
-
+var isOldVersion = window.tianshan && window.tianshan.invokeApp;
 var ljClient = {
     getDeviceNumber: function () { // 获取设备号
         return this.get().clientNumber || null;
@@ -66,7 +66,7 @@ var jssdk = {
                     case 'appid':// 应用号
                     case 'appId':
                     case 'appID':
-                        return typeof appID == 'object' ? appID.appId : appID;
+                        return typeof appID == 'object' ? (appID.appId||appID.id)||'' : appID;
                     default:
                         return null;
                 }
@@ -121,7 +121,7 @@ var jssdk = {
         }
     },
     getAppVersion: function () {
-        var appVersion = driver('getAppVersion')
+        var appVersion = driver('getAppVersion');
         return typeof appVersion == 'object' ? appVersion.appVersion : appVersion;
     },
     openChildWindow: function (options) {
@@ -240,10 +240,16 @@ var jssdk = {
             default:
                 break;
         }
-        if (options) {
-            bridge.register(name, options, fn);
-        } else {
-            bridge.register(name, fn);
+        if(isOldVersion){
+            window.ljTsEventAction[name] = function(res){
+                if(fn)fn(res,options);
+            };
+        }else{
+            if (options) {
+                bridge.register(name, options, fn);
+            } else {
+                bridge.register(name, fn);
+            }
         }
     },
     ready: function (fn) { // todo config是否异步通知，设置完成后执行
