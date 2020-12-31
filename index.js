@@ -210,6 +210,9 @@ var jssdk = {
             case 'SOFT_INPUT_CHANGED':
                 name = 'SOFT_INPUT_CHANGED';
                 break;
+			case 'DRIVER_TEMPERATURE_RESULT':
+                name = 'DRIVER_TEMPERATURE_RESULT';
+				break;
             default:
                 break;
         }
