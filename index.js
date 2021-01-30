@@ -206,6 +206,9 @@ var jssdk = {
     printTec: function (options) {
         driver('printTec', options);
     },
+    setLedColor:function(options){
+        driver('setLedColor', options);
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':
