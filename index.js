@@ -182,6 +182,9 @@ var jssdk = {
 	printTec:function(options){
         driver('printTec',options);
     },
+    sensetimeRegister:function(options){
+        driver('sensetimeRegister',options);
+    },
     notify: function (name, fn, options) {
         switch (name) {
             case 'ENTER_SCREENSAVERS':
@@ -219,6 +222,9 @@ var jssdk = {
 			case 'DRIVER_TEMPERATURE_RESULT':
                 name = 'DRIVER_TEMPERATURE_RESULT';
 				break;
+            case 'DRIVER_SENSETIME_RESULT':
+                name = 'DRIVER_SENSETIME_RESULT';
+                break;
             default:
                 break;
         }
