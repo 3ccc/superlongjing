@@ -20,6 +20,6 @@
     }
   ],
   "dependencies": {
-    "webpack": "^4.8.3"
+    "webpack": "^5.75.0"
   }
 }
